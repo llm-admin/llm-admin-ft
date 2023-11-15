@@ -52,7 +52,7 @@ setup(
             "linkify-it-py==2.0.2",
             "markdown-it-py==2.2.0",
             "gradio",
-            "httpx[socks]"
+            "httpx[socks]==0.23.3"
         ],
         "frontend": [
             "gradio",

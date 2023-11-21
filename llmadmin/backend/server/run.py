@@ -4,7 +4,7 @@ from typing import List, Union, Optional
 import ray._private.usage.usage_lib
 from ray import serve
 
-from llmadmin.backend.server.app import LLMDeployment, RouterDeployment, ExperimentalDeployment, ApplicationDeployment, ApiServer
+from llmadmin.backend.server.app import LLMDeployment, RouterDeployment, ExperimentalDeployment, ApiServer
 from llmadmin.backend.server.models import LLMApp, ServeArgs, FTApp
 from llmadmin.backend.server.utils import parse_args, parse_args_ft
 import uuid
@@ -113,29 +113,29 @@ def llm_experimental(args: Union[str, LLMApp, List[Union[LLMApp, str]]]):
     return (ExperimentalDeployment.bind(deployment, model), serve_conf)
 
 
-def llm_flow(input: dict, tweaks: Optional[dict] = None, build=True):
-    """Serve LLM Models
+# def llm_flow(input: dict, tweaks: Optional[dict] = None, build=True):
+#     """Serve LLM Models
 
-    This function returns a Ray Serve Application.
+#     This function returns a Ray Serve Application.
 
-    Accepted inputs:
-    the dict, actually it's a json object
+#     Accepted inputs:
+#     the dict, actually it's a json object
 
-    You can use `serve.run` to run this application on the local Ray Cluster.
+#     You can use `serve.run` to run this application on the local Ray Cluster.
 
-    `serve.run(llm_backend(args))`.
+#     `serve.run(llm_backend(args))`.
 
-    You can also remove
-    """
-    # If input is a dictionary, assume it's a JSON object
-    if isinstance(input, dict):
-        flow_graph = input
-    else:
-        raise TypeError(
-            "Input must be a JSON object (dict)"
-        )
+#     You can also remove
+#     """
+#     # If input is a dictionary, assume it's a JSON object
+#     if isinstance(input, dict):
+#         flow_graph = input
+#     else:
+#         raise TypeError(
+#             "Input must be a JSON object (dict)"
+#         )
 
-    return ApplicationDeployment.bind(flow_graph, tweaks)
+#     return ApplicationDeployment.bind(flow_graph, tweaks)
 
 
 def llm_application(args):

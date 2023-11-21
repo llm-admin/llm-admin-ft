@@ -1,12 +1,7 @@
-FROM rayproject/ray:nightly-cu118
+# build from Dockerfile-base
+#FROM docker.io/vincentpli/aviary:base-0.0.1
+FROM wanghaihui/llmray:base-0.0.1
 
-RUN sudo apt-get update && sudo apt-get install -y libaio-dev git-lfs awscli && sudo rm -rf /var/lib/apt/lists/*
-
-RUN conda update -n base -c defaults conda -y
-RUN conda install python=3.10 -y
-RUN pip install --upgrade pip && pip install "ray[default,serve] @ https://s3-us-west-2.amazonaws.com/ray-wheels/latest/ray-3.0.0.dev0-cp310-cp310-manylinux2014_x86_64.whl"
-RUN pip install -i https://download.pytorch.org/whl/cu118 torch torchvision torchaudio
-RUN pip install gradio langflow
 COPY "./dist" "/home/ray/dist"
 RUN cd /home/ray/dist && pip install "$(ls *.whl | head -n1)[backend, frontend]"
 

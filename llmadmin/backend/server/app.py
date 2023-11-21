@@ -429,54 +429,7 @@ class ExperimentalDeployment(GradioIngress):
 
         return lambda: gr.Interface(self.query, **gr_params, title = self._model_configuration.model_config.model_id)
 
-
-
-from pathlib import Path
-from langflow import load_flow_from_json
-
-@serve.deployment(
-    route_prefix="/",
-    # TODO make this configurable in llmadmin run
-    autoscaling_config={
-        "min_replicas": 1,
-        "initial_replicas": 1,
-        "max_replicas": 2,
-    },
-    max_concurrent_queries=50,  # Maximum backlog for a single replica
-)
-@serve.ingress(app)
-class ApplicationDeployment:
-    def __init__(
-        self, input: Union[Path, str, dict], tweaks: Optional[dict] = None
-    ) -> None:
-        self._rawflow = input
-        self._tweaks = tweaks
-        self._flow = load_flow_from_json(input, tweaks, build=True)
-
-    @app.post("/query/{chain}")
-    async def query(self, chain: str, prompt: Prompt) -> Dict[str, Dict[str, Any]]:
-        results = self._flow(prompt)
-        results = results[0]
-        logger.info(results)
-        return {chain: results}
-
-    @app.get("/metadata/{model}")
-    async def metadata(self, model) -> Dict[str, Dict[str, Any]]:
-        # model = _replace_prefix(model)
-        # # This is what we want to do eventually, but it looks like reconfigure is blocking
-        # # when called on replica init
-        # # metadata = await asyncio.gather(
-        # #     *(await asyncio.gather(*[self._models[model].metadata.remote()]))
-        # # )
-        # # metadata = metadata[0]
-        # metadata = self._model_configurations[model].dict(
-        #     exclude={
-        #         "model_config": {"initialization": {"s3_mirror_config", "runtime_env"}}
-        #     }
-        # )
-        # logger.info(metadata)
-        return {"metadata": "x"}
-    
+  
 @serve.deployment(
     route_prefix="/api",
     # TODO make this configurable in llmadmin run

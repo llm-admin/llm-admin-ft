@@ -2,7 +2,7 @@
 set -euxo pipefail
 
 #git diff-index --quiet HEAD --
-GIT_COMMIT=`git rev-parse HEAD`
+GIT_COMMIT=`git rev-parse HEAD | cut -b 1-12`
 
 DOCKER_REPO="${LLMADMIN_DOCKER_REPO:-docker.io/vincentpli/aviary}"
 VERSION="0.0.1"
@@ -11,5 +11,7 @@ DOCKER_FILE="${LLMADMIN_DOCKER_FILE:-deploy/ray/Dockerfile}"
 
 ./build_llmadmin_wheel.sh
 
-sudo docker build . -f $DOCKER_FILE -t $DOCKER_TAG -t $DOCKER_REPO:latest
-sudo docker push "$DOCKER_TAG"
+sudo docker build . -f $DOCKER_FILE -t $DOCKER_TAG
+
+# sudo docker build . -f $DOCKER_FILE -t $DOCKER_TAG -t $DOCKER_REPO:latest
+# sudo docker push "$DOCKER_TAG"

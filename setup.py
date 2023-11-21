@@ -47,7 +47,6 @@ setup(
             "rouge_chinese==1.0.3",
             "nltk==3.8.1",
             "sqlalchemy==1.4.41",
-            "langflow==0.4.10",
             "typing-extensions==4.5.0",
             "linkify-it-py==2.0.2",
             "markdown-it-py==2.2.0",
